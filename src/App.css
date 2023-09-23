@@ -1,0 +1,15 @@
+.mainsection {
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .mainsection {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}

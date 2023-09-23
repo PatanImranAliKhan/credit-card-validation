@@ -1,0 +1,24 @@
+.card {
+    position: relative;
+    width: 420px;
+    height: 250px;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.data {
+    position: absolute;
+    top: 120px;
+    left: 0;
+}
+
+.cvcdata {
+    margin-left: 320px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}

@@ -1,0 +1,58 @@
+.cardDetailsEntryForm {
+    justify-content: center;
+    align-items: center;
+}
+
+.cardform {
+    width: 400px;
+    height: auto;
+    margin: auto;
+}
+
+.field {
+    margin: 15px 0;
+    display: block;
+}
+
+.field label {
+    letter-spacing: 2px;
+    font-size: 16px;
+}
+
+.cardform input {
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding-left: 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.expcvc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;   
+}
+
+.expireInputDiv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.confirmbutton {
+    background-color: #220930;
+    height: 50px;
+    border-radius: 5px;
+    margin: 20px 0px;
+    width: 100%;
+    color: #fff;
+    cursor: pointer;
+}
+
+.error {
+    font-size: small;
+    color: red;
+}
