@@ -4,6 +4,8 @@ import CardsDisplaySection from "./components/CardsDisplaySection";
 import CardDetailsForm from "./components/CardDetailsForm";
 
 import './App.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -54,7 +56,7 @@ function App() {
       if (value.length > 2 || parseInt(value) > 12) return;
     } if (name === "expYear" && value.length > 12) {
       return;
-    } if(name === "cardNumber" && value.replaceAll(" ","").length >16) {
+    } if (name === "cardNumber" && value.replaceAll(" ", "").length > 16) {
       return;
     }
     setCardDetails({
@@ -63,43 +65,53 @@ function App() {
     })
   }
 
-  const handleOnBlurEvent = (e) => {
+  const handleOnBlurEvent = async (e) => {
     const name = e.target.name, value = e.target.value;
     const valFun = validationFuntions[name]
     if (submitClicked) {
       valFun(value);
-      setErrorIfExists();
+      await setErrorIfExists();
     }
   }
 
-  const handleSubmitEvent = (e) => {
+  const handleSubmitEvent = async (e) => {
+    const tId = toast.loading("Please wait...", {
+      position: toast.POSITION.TOP_CENTER
+    })
     e.preventDefault();
     setSubmitClicked(true)
     let verify = validateDetails();
+    await setErrorIfExists()
     if (verify === true) {
-      console.log("verified : " + JSON.stringify(cardDetails))
+      toast.update(tId, { render: "All good", type: "success", isLoading: false, autoClose: 5000, closeButton: true });
+      setSubmitClicked(false)
     } else {
-      console.log("Errors : "+JSON.stringify(cardDetailsError))
+      toast.update(tId, { render: "Enter Valid Data!..", type: "error", isLoading: false, autoClose: 5000, closeButton: true });
     }
   }
 
   const setErrorIfExists = () => {
-    setTimeout(() => {
-      setCardDetailsError({
-        'cardHolderName': cardHolderNameError,
-        'cardNumber': cardNumberError,
-        'expMonth': expMonthError,
-        'expYear': expYearError,
-        'cvc': cvcError
-      })
-    }, 3000);
+    const updateErrorsPromise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        setCardDetailsError(()=> {
+          return {
+            'cardHolderName': cardHolderNameError,
+            'cardNumber': cardNumberError,
+            'expMonth': expMonthError,
+            'expYear': expYearError,
+            'cvc': cvcError
+          }
+        })
+        resolve("updated")
+      }, 1000);
+    });
+    return updateErrorsPromise
   }
 
   const validateDetails = async () => {
     let verify1 = validateCardHolderName(),
       verify2 = validateCardNumber(), verify3 = validateExpiryMonth(),
       verify4 = validateExpiryYear(), verify5 = validateCVC()
-    await setErrorIfExists()
 
     return verify1 && verify2 && verify3 && verify4 && verify5
   }
@@ -193,17 +205,21 @@ function App() {
   }
 
   return (
-    <div className="mainsection">
-      <CardsDisplaySection cardDetails={cardDetails} cardDetailsError={cardDetailsError} submitClicked={submitClicked} />
-      <CardDetailsForm
-        cardDetails={cardDetails}
-        cardDetailsError={cardDetailsError}
-        onCardDetailsChange={onCardDetailsChange}
-        handleSubmitEvent={handleSubmitEvent}
-        submitClicked={submitClicked}
-        handleOnBlurEvent={handleOnBlurEvent}
-      />
-    </div>
+    <>
+      <div className="mainsection">
+        <CardsDisplaySection cardDetails={cardDetails} cardDetailsError={cardDetailsError} submitClicked={submitClicked} />
+        <CardDetailsForm
+          cardDetails={cardDetails}
+          cardDetailsError={cardDetailsError}
+          onCardDetailsChange={onCardDetailsChange}
+          handleSubmitEvent={handleSubmitEvent}
+          submitClicked={submitClicked}
+          handleOnBlurEvent={handleOnBlurEvent}
+        />
+      </div>
+      <ToastContainer style={{ position: 'absolute' }} />
+    </>
+
   );
 }
 
