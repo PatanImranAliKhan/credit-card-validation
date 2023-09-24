@@ -5,7 +5,6 @@ const CardDetailsForm = ({ cardDetails, cardDetailsError, onCardDetailsChange, h
   return (
     <div className="cardDetailsEntryForm" >
       <form className="cardform" onSubmit={handleSubmitEvent}>
-        {JSON.stringify(cardDetailsError)}
         <div className="field">
           <label>CARDHOLDER NAME</label>
           <input

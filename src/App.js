@@ -32,7 +32,8 @@ function App() {
   const [submitClicked, setSubmitClicked] = useState(false);
 
   const cardNumberRegex = new RegExp(/[0-9]/);
-  let numberRegex = new RegExp(/^[0-9]{3}$/);
+  let cvcRegex = new RegExp(/^[0-9]{3}$/);
+  const numberRegex = new RegExp(/^\d+$/);
   let currentYear = new Date().getFullYear() % 100;
   const [validationFuntions, setvalidationFuntions] = useState({})
 
@@ -48,10 +49,12 @@ function App() {
 
 
   const onCardDetailsChange = (e) => {
-    const name = e.target.name, value = e.target.value;
+    let name = e.target.name, value = e.target.value;
     if (name === "expMonth") {
       if (value.length > 2 || parseInt(value) > 12) return;
     } if (name === "expYear" && value.length > 12) {
+      return;
+    } if(name === "cardNumber" && value.replaceAll(" ","").length >16) {
       return;
     }
     setCardDetails({
@@ -75,24 +78,28 @@ function App() {
     let verify = validateDetails();
     if (verify === true) {
       console.log("verified : " + JSON.stringify(cardDetails))
+    } else {
+      console.log("Errors : "+JSON.stringify(cardDetailsError))
     }
   }
 
   const setErrorIfExists = () => {
-    setCardDetailsError({
-      'cardHolderName': cardHolderNameError,
-      'cardNumber': cardNumberError,
-      'expMonth': expMonthError,
-      'expYear': expYearError,
-      'cvc': cvcError
-    })
+    setTimeout(() => {
+      setCardDetailsError({
+        'cardHolderName': cardHolderNameError,
+        'cardNumber': cardNumberError,
+        'expMonth': expMonthError,
+        'expYear': expYearError,
+        'cvc': cvcError
+      })
+    }, 3000);
   }
 
   const validateDetails = async () => {
     let verify1 = validateCardHolderName(),
       verify2 = validateCardNumber(), verify3 = validateExpiryMonth(),
       verify4 = validateExpiryYear(), verify5 = validateCVC()
-    setErrorIfExists()
+    await setErrorIfExists()
 
     return verify1 && verify2 && verify3 && verify4 && verify5
   }
@@ -141,7 +148,6 @@ function App() {
       return false;
     }
     newExpMonth = parseInt(newExpMonth)
-    console.log(newExpMonth)
     if (newExpMonth <= 0 || newExpMonth > 12) {
       setExpMonthError('Invalid Month')
       return false;
@@ -177,7 +183,7 @@ function App() {
     if (newCVC === "") {
       setCvcError('CVC is required')
       return false;
-    } else if (numberRegex.test(newCVC) === false) {
+    } else if (cvcRegex.test(newCVC) === false) {
       setCvcError('CVC must contain 3 digits')
       return false;
     } else {
@@ -188,7 +194,7 @@ function App() {
 
   return (
     <div className="mainsection">
-      <CardsDisplaySection cardDetails={cardDetails} cardDetailsError={cardDetailsError} />
+      <CardsDisplaySection cardDetails={cardDetails} cardDetailsError={cardDetailsError} submitClicked={submitClicked} />
       <CardDetailsForm
         cardDetails={cardDetails}
         cardDetailsError={cardDetailsError}
