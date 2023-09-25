@@ -1,6 +1,9 @@
 import './styles/carddetailsform.css'
 
-const CardDetailsForm = ({ cardDetails, cardDetailsError, onCardDetailsChange, handleSubmitEvent, submitClicked, handleOnBlurEvent }) => {
+const CardDetailsForm = ({
+  cardDetails, onCardDetailsChange, handleSubmitEvent,
+  submitClicked, handleOnBlurEvent, cardHolderNameError,
+  cardNumberError, expMonthError, expYearError, cvcError }) => {
 
   return (
     <div className="cardDetailsEntryForm" >
@@ -16,8 +19,8 @@ const CardDetailsForm = ({ cardDetails, cardDetailsError, onCardDetailsChange, h
             onBlur={(e) => { handleOnBlurEvent(e) }}
           />
           {
-            submitClicked && cardDetailsError.cardHolderName !== "" && (
-              <span className="error">{cardDetailsError.cardHolderName}</span>
+            submitClicked && cardHolderNameError !== "" && (
+              <span className="error">{cardHolderNameError}</span>
             )
           }
         </div>
@@ -32,8 +35,8 @@ const CardDetailsForm = ({ cardDetails, cardDetailsError, onCardDetailsChange, h
             onBlur={(e) => { handleOnBlurEvent(e) }}
           />
           {
-            submitClicked && cardDetailsError.cardNumber !== "" && (
-              <span className="error">{cardDetailsError.cardNumber}</span>
+            submitClicked && cardNumberError !== "" && (
+              <span className="error">{cardNumberError}</span>
             )
           }
         </div>
@@ -51,8 +54,8 @@ const CardDetailsForm = ({ cardDetails, cardDetailsError, onCardDetailsChange, h
                   onBlur={(e) => { handleOnBlurEvent(e) }}
                 />
                 {
-                  submitClicked && cardDetailsError.expMonth !== '' && (
-                    <span className="error">{cardDetailsError.expMonth}</span>
+                  submitClicked && expMonthError !== '' && (
+                    <span className="error">{expMonthError}</span>
                   )
                 }
               </div>
@@ -66,8 +69,8 @@ const CardDetailsForm = ({ cardDetails, cardDetailsError, onCardDetailsChange, h
                   onBlur={(e) => { handleOnBlurEvent(e) }}
                 />
                 {
-                  submitClicked && cardDetailsError.expYear !== "" && (
-                    <span className="error">{cardDetailsError.expYear}</span>
+                  submitClicked && expYearError !== "" && (
+                    <span className="error">{expYearError}</span>
                   )
                 }
               </div>
@@ -84,8 +87,8 @@ const CardDetailsForm = ({ cardDetails, cardDetailsError, onCardDetailsChange, h
               onBlur={(e) => { handleOnBlurEvent(e) }}
             />
             {
-              submitClicked && cardDetailsError.cvc !== "" && (
-                <span className="error">{cardDetailsError.cvc}</span>
+              submitClicked && cvcError !== "" && (
+                <span className="error">{cvcError}</span>
               )
             }
           </div>

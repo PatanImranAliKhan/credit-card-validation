@@ -23,13 +23,13 @@ function App() {
   const [expYearError, setExpYearError] = useState("")
   const [cvcError, setCvcError] = useState("")
 
-  const [cardDetailsError, setCardDetailsError] = useState({
-    cardHolderName: '',
-    cardNumber: '',
-    expMonth: '',
-    expYear: '',
-    cvc: ''
-  })
+  // const [cardDetailsError, setCardDetailsError] = useState({
+  //   cardHolderName: '',
+  //   cardNumber: '',
+  //   expMonth: '',
+  //   expYear: '',
+  //   cvc: ''
+  // })
 
   const [submitClicked, setSubmitClicked] = useState(false);
 
@@ -70,7 +70,6 @@ function App() {
     const valFun = validationFuntions[name]
     if (submitClicked) {
       valFun(value);
-      await setErrorIfExists();
     }
   }
 
@@ -81,31 +80,11 @@ function App() {
     e.preventDefault();
     setSubmitClicked(true)
     let verify = await validateDetails();
-    await setErrorIfExists()
     if (verify === true) {
       toast.update(tId, { render: "All good", type: "success", isLoading: false, autoClose: 3000, closeButton: true });
-      setSubmitClicked(false)
     } else {
       toast.update(tId, { render: "Enter Valid Data!..", type: "error", isLoading: false, autoClose: 3000, closeButton: true });
     }
-  }
-
-  const setErrorIfExists = () => {
-    const updateErrorsPromise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        setCardDetailsError(()=> {
-          return {
-            'cardHolderName': cardHolderNameError,
-            'cardNumber': cardNumberError,
-            'expMonth': expMonthError,
-            'expYear': expYearError,
-            'cvc': cvcError
-          }
-        })
-        resolve("updated")
-      }, 1000);
-    });
-    return updateErrorsPromise
   }
 
   const validateDetails = async () => {
@@ -207,14 +186,24 @@ function App() {
   return (
     <>
       <div className="mainsection">
-        <CardsDisplaySection cardDetails={cardDetails} cardDetailsError={cardDetailsError} submitClicked={submitClicked} />
+        <CardsDisplaySection cardDetails={cardDetails} submitClicked={submitClicked}
+          cardHolderNameError={cardHolderNameError}
+          cardNumberError={cardNumberError}
+          expMonthError={expMonthError}
+          expYearError={expYearError}
+          cvcError={cvcError}
+        />
         <CardDetailsForm
           cardDetails={cardDetails}
-          cardDetailsError={cardDetailsError}
           onCardDetailsChange={onCardDetailsChange}
           handleSubmitEvent={handleSubmitEvent}
           submitClicked={submitClicked}
           handleOnBlurEvent={handleOnBlurEvent}
+          cardHolderNameError={cardHolderNameError}
+          cardNumberError={cardNumberError}
+          expMonthError={expMonthError}
+          expYearError={expYearError}
+          cvcError={cvcError}
         />
       </div>
       <ToastContainer style={{ position: 'absolute' }} />

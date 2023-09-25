@@ -4,15 +4,22 @@ import CardFront from './CardFront';
 
 import './styles/cardsdisplay.css'
 
-const CardsDisplaySection = ({ cardDetails, cardDetailsError, submitClicked }) => {
+const CardsDisplaySection = ({ cardDetails, submitClicked, cardHolderNameError,
+  cardNumberError, expMonthError, expYearError, cvcError }) => {
   return (
     <div className='carddisplaysection'>
       <div className='bgChange'>&nbsp;</div>
       <div className='card_front'>
-        <CardFront cardDetails={cardDetails} cardDetailsError={cardDetailsError} submitClicked={submitClicked} />
+        <CardFront cardDetails={cardDetails} submitClicked={submitClicked}
+          cardHolderNameError={cardHolderNameError}
+          cardNumberError={cardNumberError}
+          expMonthError={expMonthError}
+          expYearError={expYearError}
+          cvcError={cvcError}
+        />
       </div>
       <div className='card_back'>
-        <CardBack cvc={cardDetails.cvc} cvcError={cardDetailsError.cvc} submitClicked={submitClicked} />
+        <CardBack cvc={cardDetails.cvc} cvcError={cvcError} submitClicked={submitClicked} />
       </div>
     </div>
   )

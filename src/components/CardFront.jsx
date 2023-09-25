@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './styles/card.css'
 
-const CardFront = ({ cardDetails, cardDetailsError, submitClicked }) => {
+const CardFront = ({ cardDetails, submitClicked, cardHolderNameError,
+  cardNumberError, expMonthError, expYearError }) => {
 
   const [loaded, setloaded] = useState(false)
 
@@ -18,7 +19,7 @@ const CardFront = ({ cardDetails, cardDetailsError, submitClicked }) => {
             <div className='card_content'>
               <div className='card_num'>
                 {
-                  cardDetailsError.cardNumber !== "" || cardDetails.cardNumber === "" || !submitClicked ?
+                  cardNumberError !== "" || cardDetails.cardNumber === "" || !submitClicked ?
                     <span>0000  0000  0000  0000</span>
                     :
                     <span>
@@ -29,7 +30,7 @@ const CardFront = ({ cardDetails, cardDetailsError, submitClicked }) => {
               <div className='card_det'>
                 <div>
                   {
-                    cardDetailsError.cardHolderName !== '' || cardDetails.cardHolderName === "" || !submitClicked ?
+                    cardHolderNameError !== '' || cardDetails.cardHolderName === "" || !submitClicked ?
                       <span>Mr. XYZ</span>
                       :
                       <span>
@@ -39,7 +40,7 @@ const CardFront = ({ cardDetails, cardDetailsError, submitClicked }) => {
                 </div>
                 <div>
                   {
-                    cardDetailsError.expMonth !== '' || cardDetails.expMonth === "" || !submitClicked ?
+                    expMonthError !== '' || cardDetails.expMonth === "" || !submitClicked ?
                       <span>MM</span>
                       :
                       <span>
@@ -48,7 +49,7 @@ const CardFront = ({ cardDetails, cardDetailsError, submitClicked }) => {
                   }
                   <span>/</span>
                   {
-                    cardDetailsError.expYear !== '' || cardDetails.expYear === "" || !submitClicked ?
+                    expYearError !== '' || cardDetails.expYear === "" || !submitClicked ?
                       (<span>YY</span>)
                       :
                       <span>
