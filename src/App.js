@@ -80,13 +80,13 @@ function App() {
     })
     e.preventDefault();
     setSubmitClicked(true)
-    let verify = validateDetails();
+    let verify = await validateDetails();
     await setErrorIfExists()
     if (verify === true) {
-      toast.update(tId, { render: "All good", type: "success", isLoading: false, autoClose: 5000, closeButton: true });
+      toast.update(tId, { render: "All good", type: "success", isLoading: false, autoClose: 3000, closeButton: true });
       setSubmitClicked(false)
     } else {
-      toast.update(tId, { render: "Enter Valid Data!..", type: "error", isLoading: false, autoClose: 5000, closeButton: true });
+      toast.update(tId, { render: "Enter Valid Data!..", type: "error", isLoading: false, autoClose: 3000, closeButton: true });
     }
   }
 
